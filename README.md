@@ -1,34 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pokedex App
 
-## Getting Started
+Pokedex App is a website which allows you to check all the information about your favorite pokemon.
 
-First, run the development server:
+- Reports back to you with all the information about your selected pokemon.
+- Actively maintained by developers
+- Feel free to make pull requests or Issues
+- Testing will be integrated soon
+- The project uses
+  the [PokemonApi](https://developers.virustotal.com/reference/overview) for
+  analysis
+- This project is initialised
+  with [create-react-app](https://github.com/facebook/create-react-app) with
+  typescript
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Preview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<img width="1440" alt="Screenshot 2022-04-07 at 10 30 11" src="https://user-images.githubusercontent.com/43650393/162156550-7990e017-a378-4339-bead-124c57adefff.png">
+<img width="1440" alt="Screenshot 2022-04-07 at 10 30 42" src="https://user-images.githubusercontent.com/43650393/162156584-6cc47637-2c63-4324-94e5-765b9857629e.png">
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Installation
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The steps below will allow you to run this website locally
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Clone the repo
+   1. `git clone https://github.com/GabrielMarisescu/Project-Canary`
+   2. `cd Project-Canary`
+2. Get your own VirusTotal API key
+   1. Go to the Virus total [website](https://www.virustotal.com/)
+   2. Sign up / Sign in with your account
+   3. On home page, click your user avatar and select "API key"
+   4. Copy the API Key
+3. Add the API Key to your local environmental variable
+   1. Create a file called .env in `Project-Canary` directory
+   2. Add this line and replace xxx with your API key `REACT_APP_API_KEY=xxx` (
+      no quotations marks are needed)
+4. Install dependencies and run the website locally!
+   1. `npm install`
+   2. `npm start`
+5. Enjoy and feel free to report
+   any [bugs](https://github.com/GabrielMarisescu/Project-Canary)
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Everyone is welcomed to contribute to our existing code base via pull requests,
+find an existing issue and help us fix it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If you wish to work on additional features, we would strongly recommend you to
+create an issue with the appropriate tags and assign yourself to the issue or
+comment appropriately on the issue that you are working on it.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Fork the repo
+2. Follow steps on [Installation](#installation) from step 2

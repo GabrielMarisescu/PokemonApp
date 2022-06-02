@@ -10,18 +10,21 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
       <h1 className='text-4xl mb-8 text-center'> Pokedex</h1>
       <ul>
         {pokemon.map((pokemon: Pokemon, index: number) => (
-          <li key={index}>
+          <li key={index} className='flex justify-center'>
             <Link href={`/pokemonDetail?id=${index + 1}`}>
-              <a className='border p-4 border-grey my-2 hover:shadow-md capitalize text-lg flex-col items-center bg-gray-200 rounded-md'>
-                <span className='mr-2 font-bold'>
-                  {index + 1}.{pokemon.name}
-                </span>
-                <Image
-                  src={pokemon.image}
-                  alt={pokemon.name}
-                  width={150}
-                  height={150}
-                />
+              <a className='bg-gray-200 mb-10 h-56 w-96 flex justify-center hover:shadow-md border-gray-600 text-lg rounded-md capitalize align-middle'>
+                <div className='p-4  my-2'>
+                  <div className='mr-2 font-bold flex justify-center mb-2'>
+                    {index + 1}.{pokemon.name}
+                  </div>
+                  <Image
+                    className='flex items-center justify-center'
+                    src={pokemon.image}
+                    alt={pokemon.name}
+                    width={150}
+                    height={150}
+                  />
+                </div>
               </a>
             </Link>
           </li>
