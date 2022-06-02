@@ -1,7 +1,12 @@
 import Head from 'next/head';
 import React from 'react';
+import { LayoutProps } from '../interfaces/main';
 
-function Layout({ title, children }: any): JSX.Element {
+//PropsWithChildren<React.ReactNode>
+
+function Layout(props: LayoutProps): JSX.Element {
+  const { title, children } = props;
+
   return (
     <div className='bg-gray-300'>
       <Head>

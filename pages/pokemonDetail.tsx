@@ -1,23 +1,33 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/Link';
-export default function pokemon({ pokeman }: any) {
+import Image from 'next/image';
+import {
+  pokemonDetailContext,
+  pokemonDetailProps,
+  pokemonType,
+} from '../interfaces/main';
+
+export default function pokemon({ pokemon }: pokemonDetailProps) {
+  console.log(pokemon);
+
   return (
-    <Layout title={pokeman.name}>
+    <Layout title={pokemon.name}>
       <h1 className='text-4xl mb-2 text-center capitalize'>
-        {pokeman.id}. {pokeman.name}
+        {pokemon.id}. {pokemon.name}
       </h1>
-      <img className='mx-auto' src={pokeman.image} alt={pokeman.name} />
+      <Image src={pokemon.image} alt={pokemon.name} width={200} height={200} />
+
       <p>
-        <span className='font-bold mr-2'>Weight:</span> {pokeman.weight}
+        <span className='font-bold mr-2'>Weight:</span> {pokemon.weight}
       </p>
       <p>
         <span className='font-bold mr-2'>Height:</span>
-        {pokeman.height}
+        {pokemon.height}
       </p>
       <h2 className='text-2xl mt-6 mb-2'>Types</h2>
-      {pokeman.types.map((type: any, index: any) => (
-        <p key='index'>{type.type.name}</p>
+      {pokemon.types.map((types: pokemonType, i: number) => (
+        <p key='index'>{types.type.name}</p>
       ))}
       <p className='mt-10 text-center'>
         <Link href='/'>
@@ -28,15 +38,15 @@ export default function pokemon({ pokeman }: any) {
   );
 }
 
-export async function getServerSideProps({ query }: any) {
-  const id = query.id;
+export async function getServerSideProps(context: pokemonDetailContext) {
+  const id = context.query.id;
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const pokeman = await res.json();
+    const pokemon = await res.json();
     const paddedId = ('00' + id).slice(-3);
-    pokeman.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
+    pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
     return {
-      props: { pokeman },
+      props: { pokemon },
     };
   } catch (err) {
     console.error(err);
