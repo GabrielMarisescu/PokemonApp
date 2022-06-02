@@ -34,11 +34,11 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   );
 };
 
-export async function getStaticProps(context: any) {
+export async function getStaticProps() {
   try {
     const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=150');
     const { results } = await res.json();
-    const pokemon = results.map((pokemon: any, index: number) => {
+    const pokemon = results.map((pokemon: Pokemon, index: number) => {
       const paddedIndex = ('00' + (index + 1)).slice(-3);
       const image = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${paddedIndex}.png`;
       return {

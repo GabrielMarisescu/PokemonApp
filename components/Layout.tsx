@@ -11,7 +11,10 @@ function Layout(props: LayoutProps): JSX.Element {
     <div className='bg-gray-300'>
       <Head>
         <title> {title}</title>
-        <link rel='icon' href='/favicon.icon' />
+        <link
+          rel='icon'
+          href='https://assets.pokemon.com/static2/_ui/img/favicon.ico'
+        />
       </Head>
       <main className='container mx-auto max-w-xl pt-8 min-h-screen'>
         {children}

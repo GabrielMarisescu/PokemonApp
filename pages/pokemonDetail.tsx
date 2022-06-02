@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,33 +7,49 @@ import {
   pokemonDetailProps,
   pokemonType,
 } from '../interfaces/main';
+import { goToTop } from '../utils/main';
 
-export default function pokemon({ pokemon }: pokemonDetailProps) {
-  console.log(pokemon);
+export default function Pokemon({ pokemon }: pokemonDetailProps) {
+  useEffect(() => {
+    goToTop();
+  }, []);
 
   return (
     <Layout title={pokemon.name}>
-      <h1 className='text-4xl mb-2 text-center capitalize'>
-        {pokemon.id}. {pokemon.name}
-      </h1>
-      <Image src={pokemon.image} alt={pokemon.name} width={200} height={200} />
-
-      <p>
-        <span className='font-bold mr-2'>Weight:</span> {pokemon.weight}
-      </p>
-      <p>
-        <span className='font-bold mr-2'>Height:</span>
-        {pokemon.height}
-      </p>
-      <h2 className='text-2xl mt-6 mb-2'>Types</h2>
-      {pokemon.types.map((types: pokemonType, i: number) => (
-        <p key='index'>{types.type.name}</p>
-      ))}
-      <p className='mt-10 text-center'>
+      <p className=' mb-12 text-center'>
         <Link href='/'>
-          <a className='text-2xl underline'>Home</a>
+          <a className='text-3xl'>Home</a>
         </Link>
       </p>
+      <h1 className='text-4xl mb-2 text-center capitalize font-bold'>
+        {pokemon.id} {pokemon.name}
+      </h1>
+      <div className='flex justify-center align-center'>
+        <Image
+          src={pokemon.image}
+          alt={pokemon.name}
+          width={200}
+          height={200}
+        />
+      </div>
+
+      <div className=' flex justify-center'>
+        <p>
+          <span className='font-bold mr-2'>Weight:</span>
+          &nbsp;{pokemon.weight / 10} kg
+        </p>
+        <p>
+          <span className='font-bold ml-10'>Height:</span>
+          &nbsp;{pokemon.height / 10} m
+        </p>
+      </div>
+
+      <h2 className='text-2xl mb-2 flex justify-center mt-10'>Types</h2>
+      {pokemon.types.map((types: pokemonType, i: number) => (
+        <p key='index' className='text-1xl flex justify-center'>
+          {types.type.name}
+        </p>
+      ))}
     </Layout>
   );
 }
