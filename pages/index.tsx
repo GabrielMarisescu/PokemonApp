@@ -4,15 +4,16 @@ import Layout from '../components/Layout';
 import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
 import { useEffect, useState } from 'react';
+import Router from 'next/router';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
   const [pokemonShown, setPokemonShown] = useState<Pokemon[] | undefined>();
   let filteredPokemon: Pokemon[] = [];
 
-  const getRealPokemonID = (pokemonName: string): number => {
+  const goToPokemonDetails = (pokemonName: string): any => {
     const id = pokemonList!.findIndex((el) => el.name === pokemonName);
-    return id + 1;
+    Router.push(`/pokemonDetail?id=${id + 1}`);
   };
 
   useEffect(() => {
@@ -45,11 +46,15 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
           }}
         />
       </div>
-      {/*  WE LOOK for the name of that pokemon in our list of pokemons , and we return the Id of that pokemon*/}
+
       <ul>
         {pokemonShown?.map((pokemon: Pokemon, index: number) => (
           <li key={index} className='flex justify-center'>
-            <Link href={`/pokemonDetail?id=${getRealPokemonID(pokemon.name)}`}>
+            <div
+              onClick={() => {
+                goToPokemonDetails(pokemon.name);
+              }}
+            >
               <a className='bg-gray-200 mb-10 h-56 w-96 flex justify-center hover:shadow-md border-gray-600 text-lg rounded-md capitalize align-middle'>
                 <div className='p-4  my-2'>
                   <div className='mr-2 font-bold flex justify-center mb-2'>
@@ -64,7 +69,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
                   />
                 </div>
               </a>
-            </Link>
+            </div>
           </li>
         ))}
       </ul>
@@ -74,7 +79,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
 
 export async function getStaticProps() {
   try {
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=150');
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=300');
     const { results } = await res.json();
     const pokemon = results.map((pokemon: Pokemon, index: number) => {
       const paddedIndex = ('00' + (index + 1)).slice(-3);
