@@ -3,13 +3,46 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
+import { MouseEvent, useEffect, useState } from 'react';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
+  const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
+  const [pokemonShown, setPokemonShown] = useState<any>();
+  let filteredPokemon: any = [];
+
+  useEffect(() => {
+    if (!pokemonList) {
+      setPokemonList(pokemon);
+      setPokemonShown(pokemon);
+    }
+  }, [pokemon, pokemonList]);
+
+  const filterPokemon = (value: any) => {
+    const pokemonCopy = pokemonList;
+
+    filteredPokemon = pokemonCopy!.filter((el, i) => {
+      return el.name.startsWith(value);
+    });
+    setPokemonShown(filteredPokemon);
+    setPokemonList(pokemon);
+  };
+
   return (
     <Layout title='Pokedex'>
       <h1 className='text-4xl mb-8 text-center'> Pokedex</h1>
+
+      <form className=' flex justify-center mb-10 w-full'>
+        <input
+          className=' flex justify-center'
+          type='text'
+          onChange={(e) => {
+            filterPokemon(e.currentTarget.value);
+          }}
+        />
+      </form>
+
       <ul>
-        {pokemon.map((pokemon: Pokemon, index: number) => (
+        {pokemonShown?.map((pokemon: Pokemon, index: number) => (
           <li key={index} className='flex justify-center'>
             <Link href={`/pokemonDetail?id=${index + 1}`}>
               <a className='bg-gray-200 mb-10 h-56 w-96 flex justify-center hover:shadow-md border-gray-600 text-lg rounded-md capitalize align-middle'>

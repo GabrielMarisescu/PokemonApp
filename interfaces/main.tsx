@@ -27,10 +27,21 @@ export interface pokemonDetailProps {
     weight: number;
     height: number;
     types: pokemonType[];
+    stats: Stats[];
   };
 }
 
 export interface pokemonType {
   slot: number;
   type: { name: string; url: string };
+}
+export interface Stat {
+  name: string;
+  url: string;
+}
+
+export interface Stats {
+  base_stat: number;
+  effort: number;
+  stat: Stat;
 }

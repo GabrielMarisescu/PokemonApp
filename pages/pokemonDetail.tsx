@@ -14,6 +14,8 @@ export default function Pokemon({ pokemon }: pokemonDetailProps) {
     goToTop();
   }, []);
 
+  console.log(pokemon.stats);
+
   return (
     <Layout title={pokemon.name}>
       <p className=' mb-12 text-center'>
@@ -45,8 +47,8 @@ export default function Pokemon({ pokemon }: pokemonDetailProps) {
       </div>
 
       <h2 className='text-2xl mb-2 flex justify-center mt-10'>Types</h2>
-      {pokemon.types.map((types: pokemonType, i: number) => (
-        <p key='index' className='text-1xl flex justify-center'>
+      {pokemon.types.map((types: pokemonType, index: number) => (
+        <p key={index} className='text-1xl flex justify-center'>
           {types.type.name}
         </p>
       ))}
