@@ -38,7 +38,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
           type='text'
           placeholder='Pokemon'
           onChange={(e) => {
-            filterPokemon(e.currentTarget.value.toLowerCase());
+            filterPokemon(e.currentTarget.value.toLowerCase().trim());
           }}
         />
       </div>
