@@ -3,15 +3,20 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
   const [pokemonShown, setPokemonShown] = useState<Pokemon[] | undefined>();
   let filteredPokemon: Pokemon[] = [];
 
+  const getRealPokemonID = (pokemonName: string): number => {
+    const id = pokemonList!.findIndex((el) => el.name === pokemonName);
+    return id + 1;
+  };
+
   useEffect(() => {
-    if (!pokemonList && !pokemonShown) {
+    if (!pokemonList) {
       setPokemonList(pokemon);
       setPokemonShown(pokemon);
     }
@@ -19,9 +24,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
 
   const filterPokemon = (value: string) => {
     filteredPokemon = pokemonList!.filter((el) => el.name.startsWith(value));
-
     setPokemonShown(filteredPokemon);
-    setPokemonList(pokemon);
   };
 
   return (
@@ -42,15 +45,15 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
           }}
         />
       </div>
-
+      {/*  WE LOOK for the name of that pokemon in our list of pokemons , and we return the Id of that pokemon*/}
       <ul>
         {pokemonShown?.map((pokemon: Pokemon, index: number) => (
           <li key={index} className='flex justify-center'>
-            <Link href={`/pokemonDetail?id=${index + 1}`}>
+            <Link href={`/pokemonDetail?id=${getRealPokemonID(pokemon.name)}`}>
               <a className='bg-gray-200 mb-10 h-56 w-96 flex justify-center hover:shadow-md border-gray-600 text-lg rounded-md capitalize align-middle'>
                 <div className='p-4  my-2'>
                   <div className='mr-2 font-bold flex justify-center mb-2'>
-                    {index + 1}.{pokemon.name}
+                    {pokemon.name}
                   </div>
                   <Image
                     className='flex items-center justify-center'

@@ -2,11 +2,20 @@ import React, { PropsWithChildren } from 'react';
 
 export interface LayoutProps {
   title: string;
-  children: PropsWithChildren<React.ReactNode>;
+  children?: PropsWithChildren<React.ReactNode>;
 }
 
 export interface HomePageProps {
   pokemon: Pokemon[];
+}
+
+export interface abilities {
+  ability: {
+    name: string;
+    url: string;
+  };
+  is_hidden: boolean;
+  slot: number;
 }
 
 export interface Pokemon {
@@ -16,11 +25,15 @@ export interface Pokemon {
 }
 
 export interface pokemonDetailContext {
-  query: { id: number };
+  query: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface pokemonDetailProps {
   pokemon: {
+    abilities: abilities[];
     id: number;
     name: string;
     image: string;

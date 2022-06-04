@@ -14,44 +14,51 @@ export default function Pokemon({ pokemon }: pokemonDetailProps) {
     goToTop();
   }, []);
 
-  console.log(pokemon.stats);
-
   return (
     <Layout title={pokemon.name}>
-      <p className=' mb-12 text-center'>
-        <Link href='/'>
-          <a className='text-3xl'>Home</a>
-        </Link>
-      </p>
-      <h1 className='text-4xl mb-2 text-center capitalize font-bold'>
-        {pokemon.id} {pokemon.name}
-      </h1>
-      <div className='flex justify-center align-center'>
-        <Image
-          src={pokemon.image}
-          alt={pokemon.name}
-          width={200}
-          height={200}
-        />
-      </div>
+      <>
+        <p className=' mb-12 text-center'>
+          <Link href='/'>
+            <a className='text-3xl'>Home</a>
+          </Link>
+        </p>
+        <h1 className='text-4xl mb-2 text-center capitalize font-bold'>
+          {pokemon.id} {pokemon.name}
+        </h1>
+        <div className='flex justify-center align-center'>
+          <Image
+            src={pokemon.image}
+            alt={pokemon.name}
+            width={200}
+            height={200}
+          />
+        </div>
 
-      <div className=' flex justify-center'>
-        <p>
-          <span className='font-bold mr-2'>Weight:</span>
-          &nbsp;{pokemon.weight / 10} kg
-        </p>
-        <p>
-          <span className='font-bold ml-10'>Height:</span>
-          &nbsp;{pokemon.height / 10} m
-        </p>
-      </div>
+        <div className=' flex justify-center'>
+          <p>
+            <span className='font-bold mr-2'>Weight:</span>
+            &nbsp;{pokemon.weight / 10} kg
+          </p>
+          <p>
+            <span className='font-bold ml-10'>Height:</span>
+            &nbsp;{pokemon.height / 10} m
+          </p>
+        </div>
 
-      <h2 className='text-2xl mb-2 flex justify-center mt-10'>Types</h2>
-      {pokemon.types.map((types: pokemonType, index: number) => (
-        <p key={index} className='text-1xl flex justify-center'>
-          {types.type.name}
-        </p>
-      ))}
+        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Ability</h2>
+        {pokemon.abilities.map((a, index: number) => (
+          <p key={index} className='text-1xl flex justify-center'>
+            <div> {a.ability.name}</div>
+          </p>
+        ))}
+
+        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Types</h2>
+        {pokemon.types.map((types: pokemonType, index: number) => (
+          <p key={index} className='text-1xl flex justify-center'>
+            {types.type.name.charAt(0).toUpperCase() + types.type.name.slice(1)}
+          </p>
+        ))}
+      </>
     </Layout>
   );
 }
@@ -63,6 +70,7 @@ export async function getServerSideProps(context: pokemonDetailContext) {
     const pokemon = await res.json();
     const paddedId = ('00' + id).slice(-3);
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
+    console.log(pokemon);
     return {
       props: { pokemon },
     };
