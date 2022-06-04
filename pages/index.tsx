@@ -3,26 +3,23 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
-import { MouseEvent, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
-  const [pokemonShown, setPokemonShown] = useState<any>();
-  let filteredPokemon: any = [];
+  const [pokemonShown, setPokemonShown] = useState<Pokemon[] | undefined>();
+  let filteredPokemon: Pokemon[] = [];
 
   useEffect(() => {
-    if (!pokemonList) {
+    if (!pokemonList && !pokemonShown) {
       setPokemonList(pokemon);
       setPokemonShown(pokemon);
     }
-  }, [pokemon, pokemonList]);
+  }, [pokemon, pokemonList, pokemonShown]);
 
-  const filterPokemon = (value: any) => {
-    const pokemonCopy = pokemonList;
+  const filterPokemon = (value: string) => {
+    filteredPokemon = pokemonList!.filter((el) => el.name.startsWith(value));
 
-    filteredPokemon = pokemonCopy!.filter((el, i) => {
-      return el.name.startsWith(value);
-    });
     setPokemonShown(filteredPokemon);
     setPokemonList(pokemon);
   };
@@ -31,15 +28,20 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
     <Layout title='Pokedex'>
       <h1 className='text-4xl mb-8 text-center'> Pokedex</h1>
 
-      <form className=' flex justify-center mb-10 w-full'>
+      <div className='mb-4'>
+        <label className=' text-gray-700 text-sm font-bold mb-2 flex justify-center'>
+          Search your favorite Pokemon
+        </label>
         <input
-          className=' flex justify-center'
+          className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+          id='username'
           type='text'
+          placeholder='Pokemon'
           onChange={(e) => {
-            filterPokemon(e.currentTarget.value);
+            filterPokemon(e.currentTarget.value.toLowerCase());
           }}
         />
-      </form>
+      </div>
 
       <ul>
         {pokemonShown?.map((pokemon: Pokemon, index: number) => (
