@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
@@ -33,7 +33,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
       <h1 className='text-4xl mb-8 text-center'> Pokedex</h1>
 
       <div className='mb-4'>
-        <label className=' text-gray-700 text-sm font-bold mb-2 flex justify-center'>
+        <label className=' text-gray-700 text-sm font-bold mb-5 flex justify-center '>
           Search your favorite Pokemon
         </label>
         <input
@@ -47,7 +47,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
         />
       </div>
 
-      <ul>
+      <motion.ul initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
         {pokemonShown?.map((pokemon: Pokemon, index: number) => (
           <li key={index} className='flex justify-center cursor-pointer'>
             <div
@@ -60,19 +60,25 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
                   <div className='mr-2 font-bold flex justify-center mb-2'>
                     {pokemon.name}
                   </div>
-                  <Image
-                    className='flex items-center justify-center'
-                    src={pokemon.image}
-                    alt={pokemon.name}
-                    width={150}
-                    height={150}
-                  />
+                  <motion.div
+                    transition={{ duration: 0.5 }}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Image
+                      className='flex items-center justify-center'
+                      src={pokemon.image}
+                      alt={pokemon.name}
+                      width={150}
+                      height={150}
+                    />
+                  </motion.div>
                 </div>
               </a>
             </div>
           </li>
         ))}
-      </ul>
+      </motion.ul>
     </Layout>
   );
 };
