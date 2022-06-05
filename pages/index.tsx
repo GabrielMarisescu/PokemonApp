@@ -49,7 +49,7 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
 
       <ul>
         {pokemonShown?.map((pokemon: Pokemon, index: number) => (
-          <li key={index} className='flex justify-center'>
+          <li key={index} className='flex justify-center cursor-pointer'>
             <div
               onClick={() => {
                 goToPokemonDetails(pokemon.name);
