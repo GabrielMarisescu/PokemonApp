@@ -8,7 +8,7 @@ function Layout(props: LayoutProps): JSX.Element {
   const { title, children } = props;
 
   return (
-    <div className='bg-gray-300'>
+    <div className='bg-gray-100'>
       <Head>
         <title> {title}</title>
         <link
@@ -16,7 +16,7 @@ function Layout(props: LayoutProps): JSX.Element {
           href='https://assets.pokemon.com/static2/_ui/img/favicon.ico'
         />
       </Head>
-      <main className='container mx-auto max-w-xl pt-8 min-h-screen'>
+      <main className='container mx-auto max-w-xl pt-8 min-h-screen '>
         {children}
       </main>
     </div>

@@ -46,20 +46,23 @@ export default function Pokemon({ pokemon }: pokemonDetailProps) {
           </p>
         </div>
 
-        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Ability</h2>
-        {pokemon.abilities.map((a, index: number) => (
-          <p key={index} className='text-1xl flex justify-center'>
-            <div> {a.ability.name}</div>
-          </p>
-        ))}
-
-        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Stats</h2>
+        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Statistics</h2>
         <StatsCard stats={pokemon.stats} />
 
         <h2 className='text-2xl mb-2 flex justify-center mt-10'>Types</h2>
         {pokemon.types.map((types: pokemonType, index: number) => (
-          <p key={index} className='text-1xl flex justify-center'>
+          <p key={index} className='text-1xl flex justify-center font-bold'>
             {types.type.name.charAt(0).toUpperCase() + types.type.name.slice(1)}
+          </p>
+        ))}
+
+        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Ability</h2>
+        {pokemon.abilities.map((a, index: number) => (
+          <p
+            key={index}
+            className='text-1xl flex justify-center mt-5 font-bold '
+          >
+            <div> {a.ability.name}</div>
           </p>
         ))}
       </>
