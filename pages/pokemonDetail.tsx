@@ -8,6 +8,7 @@ import {
   pokemonType,
 } from '../interfaces/main';
 import { goToTop } from '../utils/main';
+import StatsCard from '../components/StatsCard';
 
 export default function Pokemon({ pokemon }: pokemonDetailProps) {
   useEffect(() => {
@@ -52,6 +53,9 @@ export default function Pokemon({ pokemon }: pokemonDetailProps) {
           </p>
         ))}
 
+        <h2 className='text-2xl mb-2 flex justify-center mt-10'>Stats</h2>
+        <StatsCard stats={pokemon.stats} />
+
         <h2 className='text-2xl mb-2 flex justify-center mt-10'>Types</h2>
         {pokemon.types.map((types: pokemonType, index: number) => (
           <p key={index} className='text-1xl flex justify-center'>
@@ -67,10 +71,14 @@ export async function getServerSideProps(context: pokemonDetailContext) {
   const id = context.query.id;
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const pokemonChain = await fetch(
+      `https://pokeapi.co/api/v2/evolution-chain/${id}`
+    );
     const pokemon = await res.json();
+    const evolutionChain = await pokemonChain.json();
     const paddedId = ('00' + id).slice(-3);
+    pokemon.evolutionChain = evolutionChain;
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
-    console.log(pokemon);
     return {
       props: { pokemon },
     };

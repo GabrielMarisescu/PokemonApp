@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
@@ -85,7 +85,8 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
 
 export async function getStaticProps() {
   try {
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=300');
+    //implement pagination, pokemon types, evolution chain
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=151');
     const { results } = await res.json();
     const pokemon = results.map((pokemon: Pokemon, index: number) => {
       const paddedIndex = ('00' + (index + 1)).slice(-3);
