@@ -3,17 +3,21 @@ import Layout from '../components/Layout';
 import Image from 'next/image';
 import { HomePageProps, Pokemon } from '../interfaces/main';
 import { useEffect, useState } from 'react';
-import Router from 'next/router';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
   const [pokemonList, setPokemonList] = useState<Pokemon[] | undefined>();
   const [pokemonShown, setPokemonShown] = useState<Pokemon[] | undefined>();
   let filteredPokemon: Pokemon[] = [];
+  const router = useRouter();
 
   const goToPokemonDetails = (pokemonName: string): any => {
     const id = pokemonList!.findIndex((el) => el.name === pokemonName);
-    Router.push(`/pokemonDetail?id=${id + 1}`);
+    router.push({
+      pathname: `/pokemonDetail`,
+      query: { id: id + 1, pokemonName: pokemon[id].name },
+    });
   };
 
   useEffect(() => {
@@ -85,7 +89,9 @@ const Home: NextPage<HomePageProps> = ({ pokemon }: HomePageProps) => {
 
 export async function getStaticProps() {
   try {
-    //implement pagination, pokemon types, evolution chain
+    //implement pagination, pokemon types(buttons), evolution chain,
+    // search by generation , weaknesses, google analytics, ads
+    //send the string name= pokemon to the other page, so we can fetch the evolutionary chain
     const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=151');
     const { results } = await res.json();
     const pokemon = results.map((pokemon: Pokemon, index: number) => {

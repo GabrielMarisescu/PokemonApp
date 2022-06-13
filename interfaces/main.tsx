@@ -1,4 +1,6 @@
 import React, { PropsWithChildren } from 'react';
+import { evolutionaryChain } from './evolutionChain';
+import { Stats } from './stats';
 
 export interface LayoutProps {
   title: string;
@@ -27,8 +29,12 @@ export interface Pokemon {
 export interface pokemonDetailContext {
   query: {
     id: number;
-    name: string;
+    pokemonName: string;
   };
+}
+export interface Species {
+  name: string;
+  url: string;
 }
 
 export interface pokemonDetailProps {
@@ -39,22 +45,14 @@ export interface pokemonDetailProps {
     image: string;
     weight: number;
     height: number;
+    species: Species;
     types: pokemonType[];
     stats: Stats[];
   };
+  evolutionChain: evolutionaryChain;
 }
 
 export interface pokemonType {
   slot: number;
   type: { name: string; url: string };
-}
-export interface Stat {
-  name: string;
-  url: string;
-}
-
-export interface Stats {
-  base_stat: number;
-  effort: number;
-  stat: Stat;
 }

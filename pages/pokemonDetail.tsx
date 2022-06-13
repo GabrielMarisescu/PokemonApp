@@ -10,10 +10,14 @@ import {
 import { goToTop } from '../utils/main';
 import StatsCard from '../components/StatsCard';
 
-export default function Pokemon({ pokemon }: pokemonDetailProps) {
+export default function Pokemon({
+  pokemon,
+  evolutionChain,
+}: pokemonDetailProps) {
   useEffect(() => {
+    console.log(evolutionChain, pokemon);
     goToTop();
-  }, []);
+  }, [evolutionChain, pokemon]);
 
   return (
     <Layout title={pokemon.name}>
@@ -72,18 +76,22 @@ export default function Pokemon({ pokemon }: pokemonDetailProps) {
 
 export async function getServerSideProps(context: pokemonDetailContext) {
   const id = context.query.id;
+  const pokemonName = context.query.pokemonName;
   try {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const pokemonChain = await fetch(
-      `https://pokeapi.co/api/v2/evolution-chain/${id}`
-    );
-    const pokemon = await res.json();
-    const evolutionChain = await pokemonChain.json();
+    const [pokemonRes, evolutionChainRes] = await Promise.all([
+      fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`),
+      fetch(`https://pokeapi.co/api/v2/evolution-chain/${id}`),
+    ]);
+
+    const [pokemon, evolutionChain] = await Promise.all([
+      pokemonRes.json(),
+      evolutionChainRes.json(),
+    ]);
+
     const paddedId = ('00' + id).slice(-3);
-    pokemon.evolutionChain = evolutionChain;
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
     return {
-      props: { pokemon },
+      props: { pokemon, evolutionChain },
     };
   } catch (err) {
     console.error(err);
