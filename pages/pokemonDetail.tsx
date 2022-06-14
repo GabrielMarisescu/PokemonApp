@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,28 +7,33 @@ import {
   pokemonDetailProps,
   pokemonType,
 } from '../interfaces/main';
-import { goToTop } from '../utils/main';
+import { goToTop, pokemonSpeciesApiCall } from '../utils/main';
 import StatsCard from '../components/StatsCard';
+import logo from '../assets/pokeApiLogo.png';
 
-export default function Pokemon({
-  pokemon,
-  evolutionChain,
-}: pokemonDetailProps) {
+//pokemonSpeciesApiCall
+export default function Pokemon({ pokemon }: pokemonDetailProps) {
+  const [evolutionaryChain, setEvolutionaryChain] = useState();
   useEffect(() => {
-    console.log(evolutionChain, pokemon);
+    console.log(pokemon, evolutionaryChain);
     goToTop();
-  }, [evolutionChain, pokemon]);
+  }, [evolutionaryChain, pokemon]);
 
+  useEffect(() => {
+    pokemonSpeciesApiCall(pokemon.id, setEvolutionaryChain);
+  }, [pokemon.id]);
+
+  console.log(evolutionaryChain);
   return (
     <Layout title={pokemon.name}>
       <>
         <p className=' mb-12 text-center'>
           <Link href='/'>
-            <a className='text-3xl'>Home</a>
+            <Image src={logo} alt='pokeapi logo' className=' cursor-pointer' />
           </Link>
         </p>
         <h1 className='text-4xl mb-2 text-center capitalize font-bold'>
-          {pokemon.id} {pokemon.name}
+          {pokemon.name}
         </h1>
         <div className='flex justify-center align-center'>
           <Image
@@ -91,7 +96,7 @@ export async function getServerSideProps(context: pokemonDetailContext) {
     const paddedId = ('00' + id).slice(-3);
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${paddedId}.png`;
     return {
-      props: { pokemon, evolutionChain },
+      props: { pokemon },
     };
   } catch (err) {
     console.error(err);
